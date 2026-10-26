@@ -1,8 +1,8 @@
-<p align="center">
-  <img src="docs/studio.png" alt="GenMotion studio: scene list, preview, timeline and inspector" width="100%">
-</p>
-
 <h1 align="center">GenMotion</h1>
+
+<p align="center">
+  <img src="docs/demo.gif" alt="GenMotion demo film, made in GenMotion" width="100%">
+</p>
 
 <p align="center">
   <b>Type an idea. Get a finished motion-graphics video.</b><br>
@@ -18,26 +18,30 @@
   <a href="#add-a-model">Add a model</a>
 </p>
 
+<p align="center"><sub>The film above was made in GenMotion. Its storyboard is <a href="web/demo.genmotion.json"><code>web/demo.genmotion.json</code></a> and opens as the starter project. <a href="docs/demo.mp4">Watch the MP4</a>.</sub></p>
+
 ---
 
 ## What it does
 
 1. **Direct.** Describe the video in a sentence. A text model of your choice writes a storyboard: scenes, image prompts, a shared visual look, motion layers, camera moves, transitions and a palette.
 2. **Generate.** Every scene's image is painted by the model you choose: Seedream, GPT Image, Nano Banana, Imagen, FLUX, Qwen-Image, Kling, Ideogram, Recraft, Wan, Hunyuan and more. Generate one at a time or all at once, compare takes and keep the best.
-3. **Animate.** Kinetic headlines, captions, counters, charts, lower thirds, lists, quotes, call-to-action buttons and logo reveals move over slow camera moves, with film grain and vignette on top.
+3. **Animate.** Kinetic headlines, captions, counters, charts, lower thirds, lists, quotes, call-to-action buttons, liquid glass and logo reveals move over slow camera moves, with film grain and vignette on top.
 4. **Export.** One click renders every frame at its exact time and encodes a 1080p H.264 MP4 (16:9, 9:16 or 1:1) with optional music.
 
 Prefer pure motion graphics? Switch to **Motion only** and GenMotion makes a type-and-graphics film with no image model at all.
 
-<p align="center"><img src="docs/frames.jpg" alt="Frames from the built-in demo film" width="100%"></p>
+<p align="center"><img src="docs/studio.png" alt="GenMotion studio: scene list, preview, timeline and inspector" width="100%"></p>
+
+<p align="center"><img src="docs/frames.jpg" alt="Frames from the demo film" width="100%"></p>
 
 ## Quick start
 
 You need **Node.js 20+** and **Chrome or Edge** (export uses WebCodecs). There are no dependencies to install.
 
 ```bash
-git clone https://github.com/blixvip/genmotion.git
-cd genmotion
+git clone https://github.com/blixvip/GenMotion.git
+cd GenMotion
 npm start            # or: node server/index.mjs --open
 ```
 
@@ -108,6 +112,7 @@ Every layer is drawn on a canvas, so the preview and the export match frame for 
 | **Chips** | Row of pill tags that pop in |
 | **Call to action** | Accent button with a light sweep |
 | **Logo** | Letter-by-letter wordmark reveal |
+| **Liquid glass** | A glass orb or capsule that drifts across, magnifying and bending whatever is under it, with rim light and a contact shadow |
 | **Lens** | A rounded square that sweeps across and inverts what it passes |
 | **Frame** | Corner brackets, letterbox, grid or a drawn border |
 | **Progress** | Thin progress line |

@@ -398,6 +398,45 @@ function lens({ ctx, W, H, u, layer, lt, d }) {
   ctx.restore();
 }
 
+// Liquid glass: the frame under the orb is copied back through a magnifying clip, then a soft
+// shadow, rim light, inner shade and specular highlights sell the curvature.
+function glass({ ctx, W, H, u, layer, lt, d }) {
+  const p = ease.inOutSine(clamp01(lt / d));
+  const pill = layer.style === 'pill';
+  const r = layer.size * Math.min(W, H) / 2;
+  const rw = pill ? r * 1.7 : r, rh = r;
+  const cx = W * (0.82 - 0.64 * p), cy = H * 0.5 + Math.sin(p * Math.PI * 2) * 34 * u - Math.sin(p * Math.PI) * 20 * u;
+  const wob = 1 + 0.025 * Math.sin(lt * 3.1);
+  const shape = (c, x, y, w, h) => { c.beginPath(); if (pill) c.roundRect(x - w, y - h, w * 2, h * 2, h); else c.ellipse(x, y, w, h, 0, 0, Math.PI * 2); };
+  const fade = clamp01(lt / 0.4) * clamp01((d - lt) / 0.4);
+  ctx.save();
+  ctx.globalAlpha *= fade;
+  // contact shadow
+  ctx.save(); ctx.filter = `blur(${(26 * u).toFixed(0)}px)`; ctx.fillStyle = 'rgba(0,0,0,0.22)';
+  shape(ctx, cx + 18 * u, cy + rh * 0.92, rw * 0.78, rh * 0.18); ctx.fill(); ctx.restore();
+  // refraction: magnify the current frame inside the shape
+  const snap = document.createElement('canvas'); snap.width = W; snap.height = H;
+  snap.getContext('2d').drawImage(ctx.canvas, 0, 0);
+  ctx.save(); shape(ctx, cx, cy, rw * wob, rh / wob); ctx.clip();
+  const z = layer.zoom;
+  ctx.drawImage(snap, cx - rw / z, cy - rh / z, (rw * 2) / z, (rh * 2) / z, cx - rw, cy - rh, rw * 2, rh * 2);
+  // inner shade toward the edge
+  const g = ctx.createRadialGradient(cx - rw * 0.2, cy - rh * 0.25, Math.min(rw, rh) * 0.2, cx, cy, Math.max(rw, rh) * 1.02);
+  g.addColorStop(0, 'rgba(255,255,255,0.10)'); g.addColorStop(0.72, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,0.28)');
+  ctx.fillStyle = g; ctx.fillRect(cx - rw * 1.1, cy - rh * 1.1, rw * 2.2, rh * 2.2);
+  ctx.restore();
+  // rim light + specular highlights
+  ctx.lineWidth = 2.5 * u; ctx.strokeStyle = 'rgba(255,255,255,0.75)';
+  shape(ctx, cx, cy, rw * wob, rh / wob); ctx.stroke();
+  ctx.lineWidth = 1.2 * u; ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+  shape(ctx, cx, cy, rw * wob + 2 * u, rh / wob + 2 * u); ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.beginPath(); ctx.ellipse(cx - rw * 0.42, cy - rh * 0.55, rw * 0.16, rh * 0.06, -0.6, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.beginPath(); ctx.ellipse(cx + rw * 0.5, cy + rh * 0.52, rw * 0.06, rh * 0.03, -0.6, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
 function frame({ ctx, W, H, u, layer, lt, style }) {
   const p = tween(lt, 0, 0.9);
   ctx.strokeStyle = rgba(style.palette.ink, 0.75); ctx.lineWidth = 3 * u;
@@ -438,4 +477,4 @@ function flash({ ctx, W, H, layer, lt, style }) {
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore();
 }
 
-export const LAYER_DRAW = { headline, subtitle, kicker, captions, lowerThird, counter, bars, list, quote, chips, cta, logo, lens, frame, progress, flash };
+export const LAYER_DRAW = { headline, subtitle, kicker, captions, lowerThird, counter, bars, list, quote, chips, cta, logo, glass, lens, frame, progress, flash };

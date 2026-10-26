@@ -24,6 +24,7 @@ export const LAYERS = {
   chips: { about: 'Row of pill tags, 2-6 short words.', defaults: { items: ['Fast', 'Simple', 'Yours'], position: 'bottom' } },
   cta: { about: 'Call to action: a button-like pill and a small line under it.', defaults: { text: 'Try it free', sub: '', position: 'center' } },
   logo: { about: 'Wordmark lockup that resolves on screen. Use for openers and end cards.', defaults: { text: 'brand.', position: 'center' } },
+  glass: { about: 'A liquid-glass orb that drifts across and magnifies whatever is under it. Put it after the text it should pass over.', defaults: { size: 0.4, zoom: 1.45, style: 'orb' }, styles: ['orb', 'pill'] },
   lens: { about: 'A rounded square that sweeps across and inverts whatever it passes over.', defaults: { size: 0.28 } },
   frame: { about: 'Graphic framing: corner brackets, letterbox bars or a fine grid.', defaults: { style: 'brackets' }, styles: ['brackets', 'letterbox', 'grid', 'border'] },
   progress: { about: 'Thin line that fills across the bottom over the layer duration.', defaults: { position: 'bottom' } },

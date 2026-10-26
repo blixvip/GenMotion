@@ -23,30 +23,9 @@ const store = {
 };
 
 // ---------- state ----------
-const DEMO = {
-  title: 'Atlas — the quiet one',
-  aspect: '16:9',
-  style: { palette: { bg: '#0b0b0d', ink: '#f4f2ee', accent: '#ff5b1f', muted: '#8f8c86' }, font: 'Inter Tight', accentFont: 'Instrument Serif', grain: 0.06, vignette: 0.4, imageStyle: 'shot on 35mm, soft dawn light, muted teal and amber grade, shallow depth of field' },
-  scenes: [
-    { name: 'Open', duration: 3.4, background: 'gradient', layers: [
-      { type: 'kicker', text: 'Introducing', position: 'top-left', start: 0.2, duration: 3 },
-      { type: 'headline', text: 'The world, *quieter.*', reveal: 'mask', start: 0.3, duration: 3 },
-      { type: 'frame', style: 'brackets', start: 0, duration: 3.4 }] },
-    { name: 'City', duration: 3.8, background: 'grid', transition: { type: 'blur', duration: 0.7 }, layers: [
-      { type: 'headline', text: 'Noise is the *default*', size: 'l', reveal: 'blur', start: 0.2, duration: 3.4 },
-      { type: 'subtitle', text: 'Eighty-five decibels on an average commute.', position: 'bottom', start: 0.8, duration: 2.8 }] },
-    { name: 'Numbers', duration: 4, background: 'gradient', transition: { type: 'wipe', duration: 0.6 }, layers: [
-      { type: 'counter', from: 0, to: 42, suffix: ' dB', label: 'noise removed', start: 0.1, duration: 3.8 }] },
-    { name: 'Why', duration: 4.2, background: 'solid', transition: { type: 'slide', duration: 0.6 }, layers: [
-      { type: 'list', title: 'Built for', items: ['Commutes', 'Deep work', 'Long flights'], position: 'left', start: 0.1, duration: 4 },
-      { type: 'chips', items: ['40h battery', 'Spatial audio', 'USB-C'], position: 'bottom-right', start: 1.2, duration: 2.9 }] },
-    { name: 'End', duration: 3.6, background: 'gradient', transition: { type: 'flash', duration: 0.5 }, layers: [
-      { type: 'logo', text: 'atlas.', start: 0.1, duration: 3.5 },
-      { type: 'cta', text: 'Pre-order today', position: 'bottom', start: 1.4, duration: 2.2 }] }
-  ]
-};
-
-let sb = normalize(store.get('genmotion:project', DEMO));
+// First run opens the bundled demo film (web/demo.genmotion.json); after that, the last project.
+const saved = store.get('genmotion:project', null);
+let sb = normalize(saved || { title: 'GenMotion', scenes: [{ background: 'gradient', layers: [{ type: 'logo', text: 'genmotion.' }] }] });
 let projectId = store.get('genmotion:projectId', '') || uid('p').toLowerCase().replace(/[^a-z0-9]/g, '');
 let sel = 0, selLayer = null, t = 0, playing = false, loop = true, mode = 'images', providers = null, tab = 'scene';
 const busy = new Map(); // scene id → 'busy' | 'failed'
@@ -155,7 +134,14 @@ function seekScene(i) { sel = i; selLayer = null; t = sceneStart(i) + (i ? Math.
 // ---------- scene list ----------
 function sceneThumb(s) {
   const st = busy.get(s.id);
-  return h('div', { class: `thumb ${st || ''}`, style: s.image.src ? { backgroundImage: `url("${s.image.src}")` } : { background: s.background === 'image' ? 'var(--sunk)' : `radial-gradient(circle at 30% 40%, ${sb.style.palette.accent}55, ${sb.style.palette.bg} 70%)` } });
+  const pal = sb.style.palette;
+  const look = {
+    image: 'var(--sunk)',
+    solid: pal.bg,
+    grid: `linear-gradient(${pal.ink}14 1px, transparent 1px) 0 0 / 12px 12px, linear-gradient(90deg, ${pal.ink}14 1px, ${pal.bg} 1px) 0 0 / 12px 12px`,
+    gradient: `radial-gradient(circle at 30% 40%, ${pal.accent}66, ${pal.bg} 70%)`
+  }[s.background];
+  return h('div', { class: `thumb ${st || ''}`, style: s.image.src ? { backgroundImage: `url("${s.image.src}")` } : { background: look } });
 }
 let dragFrom = null;
 function renderSceneList() {
@@ -229,7 +215,7 @@ $('timeline').addEventListener('pointerdown', e => {
 });
 
 // ---------- inspector helpers ----------
-const LABELS = { headline: 'Headline', subtitle: 'Subtitle', kicker: 'Kicker', captions: 'Captions', lowerThird: 'Lower third', counter: 'Counter', bars: 'Bar chart', list: 'List', quote: 'Quote', chips: 'Chips', cta: 'Call to action', logo: 'Logo', lens: 'Lens', frame: 'Frame', progress: 'Progress', flash: 'Flash' };
+const LABELS = { headline: 'Headline', subtitle: 'Subtitle', kicker: 'Kicker', captions: 'Captions', lowerThird: 'Lower third', counter: 'Counter', bars: 'Bar chart', list: 'List', quote: 'Quote', chips: 'Chips', cta: 'Call to action', logo: 'Logo', glass: 'Liquid glass', lens: 'Lens', frame: 'Frame', progress: 'Progress', flash: 'Flash' };
 const field = (label, input, hint) => h('label', { class: 'field' }, h('span', {}, label), input, hint && h('small', { class: 'model-hint' }, hint));
 const select = (value, options, onchange, labels = {}) => h('select', { onchange: e => onchange(e.target.value) }, ...options.map(o => h('option', { value: o, selected: o === value }, labels[o] || o)));
 const number = (value, onchange, { min, max, step = 0.1 } = {}) => h('input', { type: 'number', value, min, max, step, onchange: e => onchange(Number(e.target.value)) });
@@ -673,5 +659,6 @@ window.genmotion = { get storyboard() { return sb; }, set storyboard(v) { sb = n
 
 renderAll(); draw();
 requestAnimationFrame(tick);
+if (!saved) fetch('demo.genmotion.json').then(r => r.json()).then(demo => { sb = normalize(demo); sel = 0; t = 0; renderAll(); draw(); }).catch(() => {});
 loadProviders().then(renderInspector).catch(err => toast(`Server not reachable: ${err.message}`, true));
 document.fonts.ready.then(draw);
