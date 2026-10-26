@@ -1,0 +1,16 @@
+{
+  "name": "genmotion",
+  "version": "0.1.0",
+  "description": "Prompt to finished video: generate images with the top Western and Chinese image models, add motion graphics, export MP4. Bring your own API keys.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "bin": { "genmotion": "server/index.mjs" },
+  "scripts": {
+    "start": "node server/index.mjs",
+    "dev": "node --watch server/index.mjs",
+    "test": "node --test \"test/*.test.mjs\"",
+    "check": "node scripts/check.mjs"
+  },
+  "keywords": ["motion-graphics", "image-generation", "video", "gsap", "flux", "seedream", "qwen-image", "kling", "gpt-image", "imagen"]
+}

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GenMotion</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="app.css">
+  <script src="vendor/mp4-muxer.js"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="/" aria-label="GenMotion home"><span class="mark" aria-hidden="true"></span>GenMotion</a>
+    <input id="title" class="title" spellcheck="false" aria-label="Project title" value="Untitled">
+    <div class="bar-right">
+      <button id="open-projects" class="ghost">Projects</button>
+      <button id="open-library" class="ghost">Library</button>
+      <button id="open-settings" class="ghost"><span id="key-dot" class="dot"></span>API keys</button>
+      <button id="export" class="primary">Export MP4</button>
+    </div>
+  </header>
+
+  <main class="studio">
+    <!-- Left: idea → storyboard, then the scene list -->
+    <aside class="panel left">
+      <section class="direct">
+        <label class="eyebrow" for="idea">Idea</label>
+        <textarea id="idea" rows="5" placeholder="A launch film for Atlas, a noise-cancelling headphone. Quiet city at dawn, the world goes silent, product hero shot, three numbers, end on the logo."></textarea>
+        <div class="row">
+          <div class="seg" role="radiogroup" aria-label="Mode">
+            <button role="radio" aria-checked="true" data-mode="images">Images + motion</button>
+            <button role="radio" aria-checked="false" data-mode="motion">Motion only</button>
+          </div>
+        </div>
+        <div class="row">
+          <label class="mini">Format
+            <select id="aspect"><option>16:9</option><option>9:16</option><option>1:1</option></select>
+          </label>
+          <label class="mini">Scenes
+            <select id="scene-count"><option value="">Auto</option><option>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select>
+          </label>
+          <label class="mini grow">Director
+            <select id="director"></select>
+          </label>
+        </div>
+        <button id="direct" class="primary wide">Write storyboard</button>
+        <button id="generate-all" class="wide">Generate all images</button>
+        <p id="direct-note" class="note" hidden></p>
+      </section>
+      <section class="scenes">
+        <div class="section-head"><span class="eyebrow">Scenes</span><button id="add-scene" class="icon" title="Add scene" aria-label="Add scene">+</button></div>
+        <ol id="scene-list"></ol>
+      </section>
+    </aside>
+
+    <!-- Center: preview + timeline -->
+    <section class="stage">
+      <div class="viewer" id="viewer">
+        <canvas id="canvas" width="1920" height="1080"></canvas>
+      </div>
+      <div class="transport">
+        <button id="play" class="icon play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg></button>
+        <span id="time" class="time">0:00.0</span>
+        <input id="scrub" type="range" min="0" max="10" step="0.001" value="0" aria-label="Scrub">
+        <span id="total" class="time muted">0:00.0</span>
+        <button id="loop" class="icon toggle on" aria-pressed="true" title="Loop" aria-label="Loop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l4 4-4 4V7H7a3 3 0 0 0-3 3v1H2v-1a5 5 0 0 1 5-5h10zM7 22l-4-4 4-4v3h10a3 3 0 0 0 3-3v-1h2v1a5 5 0 0 1-5 5H7z"/></svg></button>
+      </div>
+      <div class="timeline" id="timeline">
+        <div class="track" id="track"></div>
+        <div class="layers-track" id="layers-track"></div>
+        <div class="playhead" id="playhead"></div>
+      </div>
+    </section>
+
+    <!-- Right: inspector -->
+    <aside class="panel right" id="inspector">
+      <nav class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-tab="scene">Scene</button>
+        <button role="tab" aria-selected="false" data-tab="layers">Motion</button>
+        <button role="tab" aria-selected="false" data-tab="style">Style</button>
+      </nav>
+      <div class="tab" data-pane="scene" id="pane-scene"></div>
+      <div class="tab" data-pane="layers" id="pane-layers" hidden></div>
+      <div class="tab" data-pane="style" id="pane-style" hidden></div>
+    </aside>
+  </main>
+
+  <!-- Settings: API keys -->
+  <dialog id="settings" class="sheet">
+    <form method="dialog" class="sheet-head"><h2>API keys</h2><button class="icon" aria-label="Close">✕</button></form>
+    <p class="note">Keys are written to <code>.env</code> on this computer and only used by your local GenMotion server. The browser never sees them.</p>
+    <div id="key-groups"></div>
+  </dialog>
+
+  <!-- Library -->
+  <dialog id="library" class="sheet wide-sheet">
+    <form method="dialog" class="sheet-head"><h2>Library</h2><button class="icon" aria-label="Close">✕</button></form>
+    <p class="note">Every image you generate or upload. Click one to use it in the selected scene.</p>
+    <div id="library-grid" class="grid"></div>
+  </dialog>
+
+  <!-- Projects -->
+  <dialog id="projects" class="sheet">
+    <form method="dialog" class="sheet-head"><h2>Projects</h2><button class="icon" aria-label="Close">✕</button></form>
+    <div class="row"><button id="new-project" class="primary">New project</button><button id="import-json">Open .json</button><button id="export-json">Save .json</button></div>
+    <ul id="project-list" class="project-list"></ul>
+  </dialog>
+
+  <!-- Export -->
+  <dialog id="exporting" class="sheet">
+    <div class="sheet-head"><h2>Export</h2></div>
+    <p id="export-status" class="note">Preparing…</p>
+    <div class="meter"><div id="export-bar"></div></div>
+    <div class="row end"><button id="export-cancel">Cancel</button><a id="export-save" class="button primary" hidden>Download MP4</a></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <input id="file-image" type="file" accept="image/*" hidden>
+  <input id="file-audio" type="file" accept="audio/*" hidden>
+  <input id="file-json" type="file" accept="application/json,.json" hidden>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>
