@@ -3,7 +3,7 @@ import { request, ProviderError } from '../util.mjs';
 export default {
   id: 'gemini', name: 'Gemini Image (Nano Banana)', maker: 'Google', region: 'global',
   keys: ['GEMINI_API_KEY'], signup: 'https://aistudio.google.com/apikey',
-  models: ['gemini-2.5-flash-image'], defaultModel: 'gemini-2.5-flash-image',
+  models: ['gemini-2.5-flash-image', 'gemini-3-pro-image-preview'], defaultModel: 'gemini-2.5-flash-image',
   strengths: 'Fast, cheap, strong scene consistency.',
   async generate({ prompt, aspect, model }, { key, signal, fetch }) {
     const data = await request(this.name, `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
