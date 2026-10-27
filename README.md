@@ -10,6 +10,15 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/blixvip/GenMotion/stargazers"><img src="https://img.shields.io/github/stars/blixvip/GenMotion?style=flat&color=ff5b1f" alt="Stars"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-black" alt="MIT"></a>
+  <img src="https://img.shields.io/badge/node-20%2B-black" alt="Node 20+">
+  <img src="https://img.shields.io/badge/dependencies-0-black" alt="Zero dependencies">
+  <img src="https://img.shields.io/badge/image%20models-17-black" alt="17 image models">
+  <a href="https://discord.gg/zEB4VjmfSb"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
+</p>
+
+<p align="center">
   <a href="#quick-start">Quick start</a> ·
   <a href="#image-models">Image models</a> ·
   <a href="#directors">Directors</a> ·
@@ -191,6 +200,26 @@ npm run dev      # restart on change
 - **Costs** are billed by each provider to your own account. GenMotion adds nothing.
 - **Content rules** are the providers'. A refused prompt shows the provider's reason.
 - **Model ids move fast.** Every picker accepts the listed versions, and fal.ai / Replicate accept any id you type.
+
+## Community
+
+💬 [Join the Discord](https://discord.gg/zEB4VjmfSb) for questions, help, feedback, and to show what you made. Built a new provider adapter? Open a pull request.
+
+<!-- more-from-blixvip:start -->
+## More from blixvip
+
+| Project | What it does |
+| --- | --- |
+| **[NullMotion](https://github.com/blixvip/NullMotion)** | Play a finished motion-graphics ad in sync with the rough drafts it grew from. Export the breakdown as MP4. |
+| **[MotionClone](https://github.com/blixvip/MotionClone)** | Rebuild any reference video as an editable HyperFrames project and compare it against the original. |
+| **[html-anime](https://github.com/blixvip/html-anime)** | Turn a scene prompt into a shot sheet, then have a coding agent draw the film in HTML. No video model. |
+| **[easyedit](https://github.com/blixvip/easyedit)** | Type a movie name, get a fan edit: captioned speech cut, then a montage cut to the beat. |
+| **[stick](https://github.com/blixvip/stick)** | Free, open-source stick figure animation software for Windows, Linux and the web. |
+| **[thumbnail-studio](https://github.com/blixvip/thumbnail-studio)** | A minimal Windows workspace for YouTube thumbnails: ChatGPT beside your references. |
+| **[blixtrade](https://github.com/blixvip/blixtrade)** | Open-source core of BLIX, the AI memecoin terminal for Solana, with a public API and MCP server. |
+
+<sub>If one of these helped you, a ⭐ helps other people find it. Follow [@waselyyy](https://x.com/waselyyy) for new drops.</sub>
+<!-- more-from-blixvip:end -->
 
 ## License
 
