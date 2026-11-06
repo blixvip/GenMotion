@@ -34,7 +34,7 @@ button, .button {
   transition: background .12s, border-color .12s, color .12s, opacity .12s;
 }
 button:hover, .button:hover { background: #222227; border-color: #45454c; }
-button:focus-visible, .button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+button:focus-visible, .button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .scene-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 button:disabled { opacity: .45; cursor: default; }
 button.primary, .button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 650; }
 button.primary:hover, .button.primary:hover { background: #ff7440; border-color: #ff7440; }
