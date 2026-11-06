@@ -221,6 +221,12 @@ npm run dev      # restart on change
 <sub>If one of these helped you, a ⭐ helps other people find it. Follow [@waselyyy](https://x.com/waselyyy) for new drops.</sub>
 <!-- more-from-blixvip:end -->
 
+## Contributors
+
+Thank you to everyone who has contributed to GenMotion! New here? Read [CONTRIBUTING.md](CONTRIBUTING.md) and pick a [good first issue](https://github.com/blixvip/GenMotion/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+
+<a href="https://github.com/blixvip/GenMotion/graphs/contributors"><img src="https://contrib.rocks/image?repo=blixvip/GenMotion" alt="Contributors" /></a>
+
 ## License
 
 MIT. `web/vendor/mp4-muxer.js` is © Vanilagy, MIT.
