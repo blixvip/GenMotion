@@ -190,7 +190,7 @@ export default {
 ## Development
 
 ```bash
-npm test         # 37 unit tests: every provider against a scripted fake API, storyboard, director, env
+npm test         # unit tests: every provider against a scripted fake API, storyboard, director, env
 npm run check    # end-to-end: starts a throwaway server and drives the HTTP API
 npm run dev      # restart on change
 ```
