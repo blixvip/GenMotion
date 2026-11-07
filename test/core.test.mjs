@@ -62,6 +62,7 @@ test('director JSON parsing tolerates fences and chatter', () => {
   assert.deepEqual(parseJson('```json\n{"a":1}\n```'), { a: 1 });
   assert.deepEqual(parseJson('Sure! {"a":{"b":2}} hope that helps'), { a: { b: 2 } });
   assert.throws(() => parseJson('no json'), /did not return JSON/);
+  assert.throws(() => parseJson('{"a":1,}'), /did not return JSON/);
 });
 
 test('offline planner makes an editable, valid storyboard', () => {

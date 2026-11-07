@@ -57,15 +57,15 @@ export function parseJson(text) {
   const cleaned = String(text).trim().replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '');
   try { return JSON.parse(cleaned); } catch { /* fall through */ }
   const a = cleaned.indexOf('{'), b = cleaned.lastIndexOf('}');
-  if (a >= 0 && b > a) return JSON.parse(cleaned.slice(a, b + 1));
+  if (a >= 0 && b > a) { try { return JSON.parse(cleaned.slice(a, b + 1)); } catch { /* fall through */ } }
   throw new Error('The director did not return JSON');
 }
 
 export function pickDirector(requested) {
   if (requested) {
     const p = llm(requested);
-    if (!p) throw new Error(`Unknown director ${requested}`);
-    if (!p.keys.every(k => env(k))) throw new Error(`${p.name} needs ${p.keys.join(' + ')} in Settings`);
+    if (!p) throw Object.assign(new Error(`Unknown director ${requested}`), { status: 400 });
+    if (!p.keys.every(k => env(k))) throw Object.assign(new Error(`${p.name} needs ${p.keys.join(' + ')} in Settings`), { status: 400 });
     return p;
   }
   const preferred = env('GENMOTION_DIRECTOR');
@@ -75,7 +75,7 @@ export function pickDirector(requested) {
 
 export async function direct({ prompt, aspect = '16:9', mode = 'images', director, model, scenes, signal, fetch }) {
   const idea = String(prompt || '').trim();
-  if (!idea) throw new Error('Write an idea first');
+  if (!idea) throw Object.assign(new Error('Write an idea first'), { status: 400 });
   const p = pickDirector(director);
   if (!p) return { storyboard: offlinePlan({ prompt: idea, aspect, mode }), director: 'offline', note: 'No text-model key set, so a simple offline planner wrote this. Add any key in Settings for a real director.' };
   const user = [

@@ -113,14 +113,20 @@ const routes = {
       const dir = join(LIBRARY, 'audio'); await mkdir(dir, { recursive: true });
       const file = `${Date.now().toString(36)}-${randomBytes(3).toString('hex')}.${AUDIO[mime]}`;
       await writeFile(join(dir, file), buf);
-      return { src: `/library/audio/${file}`, name: decodeURIComponent(req.headers['x-file-name'] || file) };
+      return { src: `/library/audio/${file}`, name: fileName(req, file) };
     }
-    return saveImage({ buffer: buf, mime }, { provider: 'upload', providerName: 'Upload', prompt: decodeURIComponent(req.headers['x-file-name'] || 'uploaded image') });
+    return saveImage({ buffer: buf, mime }, { provider: 'upload', providerName: 'Upload', prompt: fileName(req, 'uploaded image') });
   },
 
   'GET /api/library': async () => listImages(),
   'GET /api/projects': async () => listProjects()
 };
+
+function fileName(req, fallback) {
+  const raw = req.headers['x-file-name'];
+  if (!raw) return fallback;
+  try { return decodeURIComponent(raw); } catch { return raw; }
+}
 
 function abortOnClose(req) {
   const ctl = new AbortController();
