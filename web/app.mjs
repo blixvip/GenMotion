@@ -2,6 +2,7 @@
 import { normalize, normalizeScene, normalizeLayer, timeline, size, imagePrompt, LAYERS, CAMERA_MOVES, TRANSITIONS, BACKGROUNDS, FONTS, POSITIONS, uid } from './engine/storyboard.mjs';
 import { createRenderer } from './engine/render.mjs';
 import { exportMp4, canExport } from './engine/export.mjs';
+import { clock } from './engine/layers.mjs';
 
 const $ = id => document.getElementById(id);
 const h = (tag, attrs = {}, ...kids) => {
@@ -16,7 +17,6 @@ const h = (tag, attrs = {}, ...kids) => {
   for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : String(kid));
   return el;
 };
-const clock = t => `${Math.floor(t / 60)}:${(t % 60).toFixed(1).padStart(4, '0')}`;
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } }
