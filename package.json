@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server/index.mjs",
     "dev": "node --watch server/index.mjs",
-    "test": "node --test \"test/*.test.mjs\"",
+    "test": "node --test test/",
     "check": "node scripts/check.mjs"
   },
   "keywords": ["motion-graphics", "image-generation", "video", "gsap", "flux", "seedream", "qwen-image", "kling", "gpt-image", "imagen"]
