@@ -398,6 +398,16 @@ function lens({ ctx, W, H, u, layer, lt, d }) {
   ctx.restore();
 }
 
+// One reusable snapshot canvas for glass(), resized only when the project size changes, so
+// per-frame draws don't allocate a full-frame canvas each time.
+let glassCanvas = null;
+function glassScratch(W, H) {
+  if (!glassCanvas) glassCanvas = document.createElement('canvas');
+  if (glassCanvas.width !== W) glassCanvas.width = W;
+  if (glassCanvas.height !== H) glassCanvas.height = H;
+  return glassCanvas;
+}
+
 // Liquid glass: the frame under the orb is copied back through a magnifying clip, then a soft
 // shadow, rim light, inner shade and specular highlights sell the curvature.
 function glass({ ctx, W, H, u, layer, lt, d }) {
@@ -415,8 +425,8 @@ function glass({ ctx, W, H, u, layer, lt, d }) {
   ctx.save(); ctx.filter = `blur(${(26 * u).toFixed(0)}px)`; ctx.fillStyle = 'rgba(0,0,0,0.22)';
   shape(ctx, cx + 18 * u, cy + rh * 0.92, rw * 0.78, rh * 0.18); ctx.fill(); ctx.restore();
   // refraction: magnify the current frame inside the shape
-  const snap = document.createElement('canvas'); snap.width = W; snap.height = H;
-  snap.getContext('2d').drawImage(ctx.canvas, 0, 0);
+  const snap = glassScratch(W, H), sc = snap.getContext('2d');
+  sc.clearRect(0, 0, W, H); sc.drawImage(ctx.canvas, 0, 0);
   ctx.save(); shape(ctx, cx, cy, rw * wob, rh / wob); ctx.clip();
   const z = layer.zoom;
   ctx.drawImage(snap, cx - rw / z, cy - rh / z, (rw * 2) / z, (rh * 2) / z, cx - rw, cy - rh, rw * 2, rh * 2);
