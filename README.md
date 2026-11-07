@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/node-20%2B-black" alt="Node 20+">
   <img src="https://img.shields.io/badge/dependencies-0-black" alt="Zero dependencies">
   <img src="https://img.shields.io/badge/image%20models-17-black" alt="17 image models">
-  <a href="https://discord.gg/zEB4VjmfSb"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
+  <a href="https://discord.gg/wJfHQXfEMM"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
 <p align="center">
@@ -203,7 +203,9 @@ npm run dev      # restart on change
 
 ## Community
 
-💬 [Join the Discord](https://discord.gg/zEB4VjmfSb) for questions, help, feedback, and to show what you made. Built a new provider adapter? Open a pull request.
+**Want to send a PR? Join the [blix open source Discord](https://discord.gg/wJfHQXfEMM) first.** It's the one server for everyone contributing to any blixvip repo: questions, ideas, PR discussion, help, and release news.
+
+💬 [Join the Discord](https://discord.gg/wJfHQXfEMM) for questions, help, feedback, and to show what you made. Built a new provider adapter? Open a pull request.
 
 <!-- more-from-blixvip:start -->
 ## More from blixvip

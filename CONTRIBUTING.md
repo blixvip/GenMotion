@@ -1,6 +1,8 @@
 # Contributing to GenMotion
 
-Thanks for helping! Questions and ideas are welcome in the **[Discord](https://discord.gg/zEB4VjmfSb)**, and bugs go in [GitHub issues](https://github.com/blixvip/GenMotion/issues/new).
+> 💬 **Before you open a PR, join the [blix open source Discord](https://discord.gg/wJfHQXfEMM).** It's the home for contributors across every blixvip repo: ask questions, run ideas by us, and talk through your PR.
+
+Thanks for helping! Questions and ideas are welcome in the **[Discord](https://discord.gg/wJfHQXfEMM)**, and bugs go in [GitHub issues](https://github.com/blixvip/GenMotion/issues/new).
 
 ## Finding something to work on
 
@@ -58,4 +60,4 @@ One file in `server/providers/image/`, one line in `IMAGE_PROVIDERS` in `server/
 - `web/app.mjs`, `index.html`, `app.css`: the studio UI. `window.genmotion` is a test hook for driving it headlessly.
 - `test/`: `node:test` unit tests. `scripts/check.mjs`: the end-to-end server check.
 
-Made something with it? Show it off in the [Discord](https://discord.gg/zEB4VjmfSb).
+Made something with it? Show it off in the [Discord](https://discord.gg/wJfHQXfEMM).
