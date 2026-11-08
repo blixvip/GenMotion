@@ -100,6 +100,14 @@ try {
     assert.equal((await call(`/api/library/${id}`, { method: 'DELETE' })).status, 200);
     assert.equal((await call('/api/library')).body.length, 0);
   });
+  await step('bad requests get 400 or 404, not 500', async () => {
+    const json = { 'content-type': 'application/json' };
+    assert.equal((await call('/api/projects/nope')).status, 404);
+    assert.equal((await call('/api/library/nope', { method: 'DELETE' })).status, 404);
+    assert.equal((await call('/api/direct', { method: 'POST', headers: json, body: JSON.stringify({ prompt: '' }) })).status, 400);
+    assert.equal((await call('/api/direct', { method: 'POST', headers: json, body: JSON.stringify({ prompt: 'x', director: 'bogus' }) })).status, 400);
+    assert.notEqual((await call('/api/upload', { method: 'POST', headers: { 'content-type': 'image/png', 'x-file-name': '100%.png' }, body: PNG })).status, 500);
+  });
   console.log(`\n  ${steps.length} checks passed`);
 } catch (err) {
   console.error(`\n  ✗ ${err.message}`);

@@ -48,9 +48,14 @@ export async function listImages() {
 
 export async function deleteImage(id) {
   if (!/^[a-z0-9-]+$/.test(id)) throw new Error('Bad id');
-  const entry = JSON.parse(await readFile(join(IMAGES, `${id}.json`), 'utf8'));
+  const entry = JSON.parse(await readFile(join(IMAGES, `${id}.json`), 'utf8').catch(notFound));
   await unlink(join(IMAGES, entry.file)).catch(() => {});
   await unlink(join(IMAGES, `${id}.json`));
+}
+
+function notFound(err) {
+  if (err.code === 'ENOENT') throw Object.assign(new Error('Not found'), { status: 404 });
+  throw err;
 }
 
 const projectFile = id => {
@@ -64,7 +69,7 @@ export async function saveProject(id, storyboard) {
 }
 
 export async function loadProject(id) {
-  return JSON.parse(await readFile(projectFile(id), 'utf8'));
+  return JSON.parse(await readFile(projectFile(id), 'utf8').catch(notFound));
 }
 
 export async function listProjects() {
