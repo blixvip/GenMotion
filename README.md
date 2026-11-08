@@ -29,6 +29,8 @@
 
 <p align="center"><sub>The film above was made in GenMotion. Its storyboard is <a href="web/demo.genmotion.json"><code>web/demo.genmotion.json</code></a> and opens as the starter project. <a href="docs/demo.mp4">Watch the MP4</a>.</sub></p>
 
+<p align="center">🛠 <b>Built in the open</b> · 4 contributors · 8 good first issues · we review PRs within 24h → <a href="https://github.com/blixvip/GenMotion/issues/15"><b>start here</b></a></p>
+
 ---
 
 ## What it does
@@ -188,6 +190,10 @@ export default {
 `request()` handles timeouts and readable errors, `poll()` handles async jobs, and `SIZES` has per-API size tables. Add a test in `test/providers.test.mjs` with a scripted fake of the API.
 
 ## Development
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/blixvip/GenMotion?quickstart=1)
+
+The Codespace comes with Node 22 and runs `npm test` on creation. Every test and `npm run check` run without API keys (providers are tested against scripted fakes); keys are bring-your-own and only needed to try real models in the studio. New contributors: see [Your first PR in 10 minutes](CONTRIBUTING.md#your-first-pr-in-10-minutes).
 
 ```bash
 npm test         # unit tests: every provider against a scripted fake API, storyboard, director, env

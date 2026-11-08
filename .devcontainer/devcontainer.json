@@ -1,0 +1,16 @@
+{
+  "name": "GenMotion",
+  // Node 22, same as CI. GenMotion has zero npm dependencies, so there is nothing to install:
+  // postCreateCommand runs the unit tests (no API keys, no network) to prove the setup works.
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "forwardPorts": [4520],
+  "portsAttributes": {
+    "4520": { "label": "GenMotion studio" }
+  },
+  "postCreateCommand": "npm test",
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["CONTRIBUTING.md"]
+    }
+  }
+}

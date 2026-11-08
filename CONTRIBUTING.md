@@ -4,6 +4,14 @@
 
 Thanks for helping! Questions and ideas are welcome in the **[Discord](https://discord.gg/grokbot)**, and bugs go in [GitHub issues](https://github.com/blixvip/GenMotion/issues/new).
 
+## Your first PR in 10 minutes
+
+1. **Get the code.** [Open a Codespace](https://codespaces.new/blixvip/GenMotion?quickstart=1) (Node 22 is ready, `npm test` runs on creation), or fork and clone locally with Node 20+: `git clone https://github.com/<you>/GenMotion.git && cd GenMotion`.
+2. **Install.** Nothing to do: GenMotion has zero npm dependencies.
+3. **Run the tests.** `npm test` and `npm run check`. Both run without API keys or network.
+4. **Pick an issue.** Choose a [good first issue](https://github.com/blixvip/GenMotion/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) (each lists the files to touch) and comment to claim it.
+5. **Open a PR.** Branch, make the change, re-run both commands, push, and open a pull request that says `Fixes #<issue>`. We review within 24 hours.
+
 ## Finding something to work on
 
 - [Good first issues](https://github.com/blixvip/GenMotion/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) are small and list the files to touch.
@@ -15,7 +23,7 @@ By contributing, you agree your work is released under the project's [MIT Licens
 
 ## Setup
 
-You need **Node.js 22** (Node 20 is the documented minimum, but `npm test` doesn't run on it yet; there's an open issue) and **Chrome or Edge** for MP4 export (WebCodecs). There are no dependencies to install.
+You need **Node.js 20+** (CI uses 22) and **Chrome or Edge** for MP4 export (WebCodecs). There are no dependencies to install.
 
 ```sh
 git clone https://github.com/<you>/GenMotion.git
@@ -23,6 +31,8 @@ cd GenMotion
 npm start            # http://127.0.0.1:4520 — add --open to launch the browser
 npm run dev          # same, restarting on change
 ```
+
+Prefer not to set anything up? [Open a Codespace](https://codespaces.new/blixvip/GenMotion?quickstart=1): `.devcontainer/` gives you Node 22 and port 4520 forwarded. The server only answers to localhost by design, so run the studio itself locally if the forwarded page refuses writes.
 
 You don't need API keys to develop. With none set, an offline planner writes storyboards and you can upload images and export. To try real models, paste keys under **API keys** in the studio, or copy `.env.example` to `.env`.
 
