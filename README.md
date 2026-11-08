@@ -29,7 +29,7 @@
 
 <p align="center"><sub>The film above was made in GenMotion. Its storyboard is <a href="web/demo.genmotion.json"><code>web/demo.genmotion.json</code></a> and opens as the starter project. <a href="docs/demo.mp4">Watch the MP4</a>.</sub></p>
 
-<p align="center">🛠 <b>Built in the open</b> · 4 contributors · 8 good first issues · we review PRs within 24h → <a href="https://github.com/blixvip/GenMotion/issues/15"><b>start here</b></a></p>
+<p align="center">🛠 <b>Built in the open</b> · 5 contributors · 8 good first issues · we review PRs within 24h → <a href="https://github.com/blixvip/GenMotion/issues/15"><b>start here</b></a></p>
 
 ---
 
