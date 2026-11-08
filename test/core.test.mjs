@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { normalize, timeline, imagePrompt, LAYERS } from '../web/engine/storyboard.mjs';
-import { parseRuns, formatNumber } from '../web/engine/layers.mjs';
+import { parseRuns, formatNumber, clock } from '../web/engine/layers.mjs';
 import { parseJson, offlinePlan, systemPrompt, direct } from '../server/director.mjs';
 import { parseEnv } from '../server/env.mjs';
 
@@ -56,6 +56,14 @@ test('accent runs', () => {
 test('number formatting', () => {
   assert.equal(formatNumber(1234567.891, 2), '1,234,567.89');
   assert.equal(formatNumber(-42, 0), '-42');
+});
+
+test('timecode readout rounds to tenths before splitting minutes', () => {
+  assert.equal(clock(3.6), '0:03.6');
+  assert.equal(clock(59.9), '0:59.9');
+  assert.equal(clock(59.96), '1:00.0');
+  assert.equal(clock(60), '1:00.0');
+  assert.equal(clock(119.98), '2:00.0');
 });
 
 test('director JSON parsing tolerates fences and chatter', () => {

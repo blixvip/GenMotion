@@ -198,6 +198,12 @@ function lowerThird({ ctx, W, H, u, layer, lt, style }) {
   ctx.restore();
 }
 
+// m:ss.t timecode. Round to tenths first so 59.96 becomes 1:00.0, not 0:60.0.
+export function clock(t) {
+  const tenths = Math.round(Math.max(0, t) * 10);
+  return `${Math.floor(tenths / 600)}:${((tenths % 600) / 10).toFixed(1).padStart(4, '0')}`;
+}
+
 export function formatNumber(v, decimals) {
   const fixed = Math.abs(v).toFixed(decimals);
   const [i, f] = fixed.split('.');
