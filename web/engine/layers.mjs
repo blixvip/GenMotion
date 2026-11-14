@@ -207,7 +207,8 @@ export function clock(t) {
 export function formatNumber(v, decimals) {
   const fixed = Math.abs(v).toFixed(decimals);
   const [i, f] = fixed.split('.');
-  return (v < 0 ? '-' : '') + i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (f ? `.${f}` : '');
+  const negative = v < 0 && Number(fixed) !== 0;
+  return (negative ? '-' : '') + i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (f ? `.${f}` : '');
 }
 
 function counter({ ctx, W, H, u, layer, lt, d, style }) {

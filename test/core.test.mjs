@@ -56,6 +56,10 @@ test('accent runs', () => {
 test('number formatting', () => {
   assert.equal(formatNumber(1234567.891, 2), '1,234,567.89');
   assert.equal(formatNumber(-42, 0), '-42');
+  assert.equal(formatNumber(-0.2, 0), '0');
+  assert.equal(formatNumber(-0.001, 2), '0.00');
+  assert.equal(formatNumber(-0.004, 2), '0.00');
+  assert.equal(formatNumber(-12.5, 0), '-13');
 });
 
 test('timecode readout rounds to tenths before splitting minutes', () => {
